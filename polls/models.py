@@ -3,13 +3,16 @@ import datetime
 from django.utils import timezone
 # Create your models here.
 class Question(models.Model):
-    quest_text = models.CharField(max_length=200)
+    quest_text = models.CharField(max_length=200, db_index=True)
     publi_date = models.DateTimeField("date published")
     def __str__(self):
         return self.quest_text
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.publi_date <= now
+    
+    class Meta:
+        indexes = [models.Index(fields = ['quest_date'])]
 
     
 class Choice(models.Model):
