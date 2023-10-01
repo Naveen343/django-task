@@ -2,6 +2,7 @@ import datetime
 from django.test import TestCase
 from django.utils import timezone
 from .models import Question
+from django.urls import reverse
 
 
 class QuestionModelTests(TestCase):
@@ -24,10 +25,10 @@ class QuestionModelTests(TestCase):
         recent_question = Question(publi_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
-def create_question(question_text, days):
+def create_question(quest_text, days):
     
     time = timezone.now() + datetime.timedelta(days=days)
-    return Question.objects.create(quest_text=question_text, publi_date=time)
+    return Question.objects.create(quest_text=quest_text, publi_date=time)
 
 
 class QuestionIndexViewTests(TestCase):
@@ -66,8 +67,8 @@ class QuestionIndexViewTests(TestCase):
 
     def test_two_past_questions(self):
       
-        question1 = create_question(questi_text="Past question 1.", days=-30)
-        question2 = create_question(questi_text="Past question 2.", days=-5)
+        question1 = create_question(quest_text="Past question 1.", days=-30)
+        question2 = create_question(quest_text="Past question 2.", days=-5)
         response = self.client.get(reverse("polls:index"))
         self.assertQuerySetEqual(
             response.context["latest_question_list"],

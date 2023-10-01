@@ -46,7 +46,7 @@ def vote(request, question_id):
         
         return HttpResponseRedirect(reverse("polls:results", args=(question.id,)))
 
-def detail(request, question_id):
+def detail(request, question_id, pk):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, "polls/detail.html", {"question": question})
   # class Meta:
